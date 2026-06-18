@@ -202,15 +202,43 @@ func3(30) # print 6
 print("------task4------")
 
 def func4(sp, stat, n):
-    # 先用stat_list，找出可以對照的車廂 -> 新的sp_list [x, 1, x, 4, 3, 2] -> 用task2的絕對值方法找出最接近的(大於優先)
+    # 先用stat_list，找出可以對照的車廂 -> 新的sp_list [x, 1, x, 4, 3, 2] -> 用task2的絕對值方法找出最接近的
     
-    sp_list = list(sp)
+    sp_list = list(sp) # 剛好不用備分sp
     stat_list = list(stat)
-    for a in range(len(stat_list)): # 在此我假設sp_list的長度=stat_list
-        if stat_list[a] == 1:
-            sp_list[a] = "x"
-    return sp_list, stat_list
+    for nn in range(len(stat_list)): # 在此我假設sp_list的長度=stat_list
+        if stat_list[nn] == "1":
+            sp_list[nn] = "x"
+    dis_list = []
+    dis_pm_list = []
+    for vv in sp_list:
+        if vv != "x":
+            pre_dis = vv - n # 這裡報錯: vv可能是字母
+            dis = abs(pre_dis)
+            dis_list.append(dis)
+            if pre_dis >= 0:
+                dis_pm = "p"
+            else:
+                dis_pm = "m"
+            dis_pm_list.append(dis_pm)
+        else:
+            dis_list.append(float('inf')) # 這裡修正
+            dis_pm_list.append("x")
+    
 
+    dis_min = min(dis_list)
+    cart_num_list = []
+    for nn in range(len(dis_list)):
+        if dis_list[nn] == dis_min:
+            cart_num_list.append(nn)
+
+    # 檢查list中的正負，以正為主
+    final_ans = cart_num_list[0]
+    for vv in cart_num_list:
+        if dis_pm_list[vv] == "p":
+            final_ans = vv
+            break
+    return print(f"print {final_ans}")
 
 func4([3, 1, 5, 4, 3, 2], "101000", 2) # print 5
 func4([1, 0, 5, 1, 3], "10100", 4) # print 4
