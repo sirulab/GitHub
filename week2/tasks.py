@@ -57,7 +57,6 @@ def func1(name):
 # 最遠dis_list.max()；最近dis_list.min() # 要人名不是數值  # points[p]
 # print(func1("⾟巴"))
 
-print("------task1------")
 func1("⾟巴") # print 最遠弗利沙；最近丁滿、⾙吉塔
 func1("悟空") # print 最遠丁滿、弗利沙；最近特南克斯
 func1("弗利沙") # print 最遠⾟巴，最近特南克斯 # correction
@@ -189,7 +188,7 @@ def func3(index):
         r_num = -2
     val = 25-2*q+r_num
 
-    return print(val)
+    return print(f"print {val}")
 
     # 老師應該不是要我用這個式子，應該是要印出整個list之後找index，用while<之類的，之後再檢討
 
