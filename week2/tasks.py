@@ -57,19 +57,86 @@ def func1(name):
 
 func1("⾟巴") # print 最遠弗利沙；最近丁滿、⾙吉塔
 func1("悟空") # print 最遠丁滿、弗利沙；最近特南克斯
-func1("弗利沙") # print 最遠⾟巴，最近特南克斯
+func1("弗利沙") # print 最遠⾟巴，最近特南克斯 # correction
 func1("特南克斯") # print 最遠丁滿，最近悟空
 
+
 # task2------------
-'''
-# your code here, maybe
-def func2(ss, start, end, criteria):
-# your code here
+
+time_available = {
+    "S1": list(range(1, 25)),
+    "S2": list(range(1, 25)),
+    "S3": list(range(1, 25))
+}
+time_booked = {
+    "S1": [], "S2": [], "S3": []
+}
+
 services=[
-{"name":"S1", "r":4.5, "c":1000},
-{"name":"S2", "r":3, "c":1200},
-{"name":"S3", "r":3.8, "c":800}
-] 
+    {"name":"S1", "r":4.5, "c":1000},
+    {"name":"S2", "r":3, "c":1200},
+    {"name":"S3", "r":3.8, "c":800}
+    ]
+
+# 思考一下: 為什麼有ss和services
+
+def func2(ss, start, end, criteria):
+    # order matters: 有時間庫存
+    # 先檢查符合條件的車廂名，再檢查有時間庫存
+    # criteria分3類 -> 對應3個條件: 是c 是r 是name ->得到check_field(cf), op and target_value
+    if criteria[0] == c:
+        cf = 2
+        if criteria[1:3] == ">=": # [cite2] 只有這三種
+            op = ">="
+            target_value = int(criteria.split(">=")[1])
+        elif criteria[1:3] == "<=":
+            op = "<="
+            target_value = int(criteria.split("<=")[1])
+        else: # "="
+            op = "="
+            target_value = int(criteria.split("=")[1])
+
+    elif criteria[0] == r:
+        cf = 1
+        if criteria[1:3] == ">=":
+            target_value = float(criteria.split(">=")[1])
+        elif criteria[1:3] == "<=":
+            target_value = float(criteria.split("<=")[1])
+        else: # "="
+            target_value = float(criteria.split("=")[1])
+
+    elif "name" in criteria:
+        cf = 0
+        target_value = str(criteria.split("=")[1])
+
+    else:
+        return "Sorry"
+    
+    candidates = []
+    for s in services:
+        if s[cf]: # 1000  vs. op+target_value 我的op已經變成str
+        # 符合(並且最接近) -> 檢查並寫入時間庫存
+        else:
+            return "Sorry"
+
+    for s in ss:
+        
+        is_match = False
+        
+        if op == ">=" and val >= target_value: # 解決 op 是字串
+            is_match = True
+        elif op == "<=" and val <= target_value:
+            is_match = True
+        elif op == "=" and val == target_value:
+            is_match = True
+            
+        if is_match:
+            diff = abs(val - target_value)
+            candidates.append((diff, s["name"]))
+
+
+
+"""
 func2(services, 15, 17, "c>=800") # S3
 func2(services, 11, 13, "r<=4") # S3
 func2(services, 10, 12, "name=S3") # Sorry
