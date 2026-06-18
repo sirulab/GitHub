@@ -1,4 +1,5 @@
 # task1------------
+print("------task1------")
 
 def func1(name):
     points = {"⾟巴":(-3,3), "悟空":(0,0), "弗利沙":(4,-1), "特南克斯":(1,-2), "丁滿":(-1,4), "貝吉塔":(-4,-1)}
@@ -56,6 +57,7 @@ def func1(name):
 # 最遠dis_list.max()；最近dis_list.min() # 要人名不是數值  # points[p]
 # print(func1("⾟巴"))
 
+print("------task1------")
 func1("⾟巴") # print 最遠弗利沙；最近丁滿、⾙吉塔
 func1("悟空") # print 最遠丁滿、弗利沙；最近特南克斯
 func1("弗利沙") # print 最遠⾟巴，最近特南克斯 # correction
@@ -63,6 +65,7 @@ func1("特南克斯") # print 最遠丁滿，最近悟空
 
 
 # task2------------
+print("------task2------")
 
 time_available = {
     "S1": list(range(1, 25)),
@@ -168,23 +171,47 @@ func2(services, 13, 17, "name=S1") # Sorry
 func2(services, 8, 9, "c<=1500") # S2
 
 # task3------------
+print("------task3------")
 
-written_list = []
 def func3(index):
     # 規律是 減2[1], 減3[2], 加1[3], 加2[4]
     # 先不考慮index == 0
     q = index//4
     r = index%4
-    # index +1 第幾個數字 index = 5; 6//4 = 1; 6%4 = 2 
+    # index +1 第幾個數字 index = 6; 6//4 = 1; 6%4 = 2; 25-2*q+ -5
+    if r == 1:
+        r_num = -2
+    elif r == 2:
+        r_num = -5
+    elif r == 3:
+        r_num = -4
+    elif r == 0:
+        r_num = -2
+    val = 25-2*q+r_num
+
+    return print(val)
+
+    # 老師應該不是要我用這個式子，應該是要印出整個list之後找index，用while<之類的，之後再檢討
+
 func3(1) # print 23
 func3(5) # print 21
 func3(10) # print 16
 func3(30) # print 6
-"""
+
 # task4------------
+print("------task4------")
+
 def func4(sp, stat, n):
-# your code here
+    # 先用stat_list，找出可以對照的車廂 -> 新的sp_list [x, 1, x, 4, 3, 2] -> 用task2的絕對值方法找出最接近的(大於優先)
+    
+    sp_list = list(sp)
+    stat_list = list(stat)
+    for a in range(len(stat_list)): # 在此我假設sp_list的長度=stat_list
+        if stat_list[a] == 1:
+            sp_list[a] = "x"
+    return sp_list, stat_list
+
+
 func4([3, 1, 5, 4, 3, 2], "101000", 2) # print 5
 func4([1, 0, 5, 1, 3], "10100", 4) # print 4
 func4([4, 6, 5, 8], "1000", 4) # print 2
-"""
