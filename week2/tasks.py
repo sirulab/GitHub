@@ -52,6 +52,7 @@ def func1(name):
 
     # return furthest, nearest, furthest_name, nearest_name #試著用OOP寫?
     return print(f"最遠{", ".join(furthest_name)}；最近{"、".join(nearest_name)}")
+
 # 最遠dis_list.max()；最近dis_list.min() # 要人名不是數值  # points[p]
 # print(func1("⾟巴"))
 
@@ -72,20 +73,14 @@ time_booked = {
     "S1": [], "S2": [], "S3": []
 }
 
-services=[
-    {"name":"S1", "r":4.5, "c":1000},
-    {"name":"S2", "r":3, "c":1200},
-    {"name":"S3", "r":3.8, "c":800}
-    ]
-
-# 思考一下: 為什麼有ss和services
+# 思考一下: 為什麼有ss和services, services為什麼可以不放前面
 
 def func2(ss, start, end, criteria):
     # order matters: 有時間庫存
     # 先檢查符合條件的車廂名，再檢查有時間庫存
     # criteria分3類 -> 對應3個條件: 是c 是r 是name ->得到check_field(cf), op and target_value
-    if criteria[0] == c:
-        cf = 2
+    if criteria[0] == "c":
+        cf = "c"
         if criteria[1:3] == ">=": # [cite2] 只有這三種
             op = ">="
             target_value = int(criteria.split(">=")[1])
@@ -96,47 +91,74 @@ def func2(ss, start, end, criteria):
             op = "="
             target_value = int(criteria.split("=")[1])
 
-    elif criteria[0] == r:
-        cf = 1
+    elif criteria[0] == "r":
+        cf = "r"
         if criteria[1:3] == ">=":
+            op = ">="
             target_value = float(criteria.split(">=")[1])
         elif criteria[1:3] == "<=":
+            op = "<="
             target_value = float(criteria.split("<=")[1])
         else: # "="
+            op = "="
             target_value = float(criteria.split("=")[1])
 
     elif "name" in criteria:
-        cf = 0
+        cf = "name"
+        op = "="
         target_value = str(criteria.split("=")[1])
 
     else:
-        return "Sorry"
+        return print("Sorry")
     
-    candidates = []
-    for s in services:
-        if s[cf]: # 1000  vs. op+target_value 我的op已經變成str
-        # 符合(並且最接近) -> 檢查並寫入時間庫存
-        else:
-            return "Sorry"
-
+    diff_min = float('inf')
+    best_name = ""
     for s in ss:
-        
+        val = s[cf] # value
         is_match = False
-        
-        if op == ">=" and val >= target_value: # 解決 op 是字串
+
+        if op == "=" and val == target_value:
+            is_match = True
+        elif op == ">=" and val >= target_value: 
             is_match = True
         elif op == "<=" and val <= target_value:
             is_match = True
-        elif op == "=" and val == target_value:
-            is_match = True
-            
+
         if is_match:
-            diff = abs(val - target_value)
-            candidates.append((diff, s["name"]))
+            if cf != "name":
+                diff = abs(val - target_value)
+                if diff < diff_min:
+                    diff_min = diff            
+                    best_name = s["name"]
+            else:
+                best_name = s["name"]
 
+    if best_name == "":
+        return print("Sorry")
 
+    time_requested = list(range(start, end))
+    avail_list = time_available[best_name]
+    
+    can_book = True
+    for t in time_requested:
+        if t not in avail_list:
+            can_book = False
+            break
+            
+    if can_book:
+        for t in time_requested:
+            avail_list.remove(t)
+            time_booked[best_name].append(t)
+        return print(best_name)
+        
+    return print("Sorry")
 
-"""
+services=[
+    {"name":"S1", "r":4.5, "c":1000},
+    {"name":"S2", "r":3, "c":1200},
+    {"name":"S3", "r":3.8, "c":800}
+    ]
+
 func2(services, 15, 17, "c>=800") # S3
 func2(services, 11, 13, "r<=4") # S3
 func2(services, 10, 12, "name=S3") # Sorry
@@ -147,13 +169,18 @@ func2(services, 8, 9, "c<=1500") # S2
 
 # task3------------
 
+written_list = []
 def func3(index):
-# your code here
+    # 規律是 減2[1], 減3[2], 加1[3], 加2[4]
+    # 先不考慮index == 0
+    q = index//4
+    r = index%4
+    # index +1 第幾個數字 index = 5; 6//4 = 1; 6%4 = 2 
 func3(1) # print 23
 func3(5) # print 21
 func3(10) # print 16
 func3(30) # print 6
-
+"""
 # task4------------
 def func4(sp, stat, n):
 # your code here
