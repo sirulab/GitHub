@@ -188,7 +188,7 @@ def func3(index):
         r_num = -2
     val = 25-2*q+r_num
 
-    return print(f"print {val}")
+    return print(val)
 
     # 老師應該不是要我用這個式子，應該是要印出整個list之後找index，用while<之類的，之後再檢討
 
@@ -237,7 +237,7 @@ def func4(sp, stat, n):
         if dis_pm_list[vv] == "p":
             final_ans = vv
             break
-    return print(f"print {final_ans}")
+    return print(final_ans)
 
 func4([3, 1, 5, 4, 3, 2], "101000", 2) # print 5
 func4([1, 0, 5, 1, 3], "10100", 4) # print 4
