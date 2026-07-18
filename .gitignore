@@ -7,4 +7,5 @@
 /java-training
 /Assignment
 /week5
-/week6
+.env
+__pycache__/
